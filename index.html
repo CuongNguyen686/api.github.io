@@ -6,20 +6,32 @@
 <title>API Key Package Manager</title>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;background:#0b1020;color:#e9edf7}
+.login{position:fixed;inset:0;background:#080d19;display:flex;align-items:center;justify-content:center;padding:20px;z-index:100}.login.hidden{display:none}
+.loginbox{width:min(420px,100%);background:#111a2d;border:1px solid #273653;border-radius:18px;padding:28px;box-shadow:0 20px 70px #0008}.loginlogo{font-size:25px;font-weight:900;margin-bottom:8px}.loginbox input{width:100%;background:#0b1222;border:1px solid #2a3855;color:#fff;border-radius:10px;padding:13px;margin:12px 0}.loginbox button{width:100%;border:0;border-radius:10px;padding:13px;background:#5865f2;color:#fff;font-weight:700}.loginerr{color:#ff8d9b;min-height:20px;font-size:13px}
+
 button,input,select,textarea{font:inherit}button{cursor:pointer}
-.app{display:flex;min-height:100vh}.side{width:240px;background:#10172a;border-right:1px solid #202a42;padding:22px 14px;position:fixed;inset:0 auto 0 0}.brand{font-size:20px;font-weight:800;padding:8px 10px 22px}.nav button{width:100%;text-align:left;border:0;background:transparent;color:#9eabc5;padding:12px 14px;border-radius:10px;margin:3px 0}.nav button.active,.nav button:hover{background:#1b2741;color:#fff}.main{margin-left:240px;width:calc(100% - 240px);padding:28px}.top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:24px}.title{font-size:28px;font-weight:800}.muted{color:#8e9ab2}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}.card,.panel{background:#111a2d;border:1px solid #202b44;border-radius:15px;padding:18px}.metric{font-size:28px;font-weight:800;margin-top:6px}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:0;border-radius:9px;padding:10px 14px;background:#263552;color:#fff}.btn.primary{background:#5865f2}.btn.danger{background:#9b3443}.btn.green{background:#217a59}.view{display:none}.view.active{display:block}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{text-align:left;padding:13px 10px;border-bottom:1px solid #202b44;white-space:nowrap}.badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;background:#253450}.badge.ok{background:#173d30;color:#69e0af}.badge.off{background:#47202a;color:#ff9bab}.modal{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;padding:20px;z-index:10}.modal.show{display:flex}.modalbox{width:min(720px,100%);max-height:92vh;overflow:auto;background:#111a2d;border:1px solid #283653;border-radius:16px;padding:22px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:13px;color:#aab5ca}.field input,.field select,.field textarea{background:#0b1222;border:1px solid #2a3855;color:#fff;border-radius:9px;padding:10px}.field textarea{min-height:90px;resize:vertical}.modalfoot{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.keybox{background:#0a0f1c;border:1px dashed #53627f;padding:14px;border-radius:10px;word-break:break-all;font-family:monospace}.notice{padding:12px;border-radius:10px;background:#182641;margin:12px 0}.search{width:100%;max-width:360px;background:#0b1222;border:1px solid #2a3855;color:#fff;border-radius:9px;padding:10px}
-@media(max-width:900px){.side{width:70px}.brand{font-size:0}.brand:after{content:"AK";font-size:18px}.nav button{font-size:0;text-align:center}.nav button:before{content:"•";font-size:20px}.main{margin-left:70px;width:calc(100% - 70px)}.grid{grid-template-columns:1fr 1fr}}
+.app{display:flex;min-height:100vh}.side{width:240px;background:#10172a;border-right:1px solid #202a42;padding:22px 14px;position:fixed;inset:0 auto 0 0}.brand{font-size:20px;font-weight:800;padding:8px 10px 22px}.nav button{width:100%;text-align:left;border:0;background:transparent;color:#9eabc5;padding:12px 14px;border-radius:10px;margin:3px 0;display:flex;align-items:center;gap:12px}.nav .ico{width:22px;text-align:center;font-size:17px}.nav button.active,.nav button:hover{background:#1b2741;color:#fff}.main{margin-left:240px;width:calc(100% - 240px);padding:28px}.top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:24px}.title{font-size:28px;font-weight:800}.muted{color:#8e9ab2}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}.card,.panel{background:#111a2d;border:1px solid #202b44;border-radius:15px;padding:18px}.metric{font-size:28px;font-weight:800;margin-top:6px}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:0;border-radius:9px;padding:10px 14px;background:#263552;color:#fff}.btn.primary{background:#5865f2}.btn.danger{background:#9b3443}.btn.green{background:#217a59}.view{display:none}.view.active{display:block}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{text-align:left;padding:13px 10px;border-bottom:1px solid #202b44;white-space:nowrap}.badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;background:#253450}.badge.ok{background:#173d30;color:#69e0af}.badge.off{background:#47202a;color:#ff9bab}.modal{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;padding:20px;z-index:10}.modal.show{display:flex}.modalbox{width:min(720px,100%);max-height:92vh;overflow:auto;background:#111a2d;border:1px solid #283653;border-radius:16px;padding:22px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:13px;color:#aab5ca}.field input,.field select,.field textarea{background:#0b1222;border:1px solid #2a3855;color:#fff;border-radius:9px;padding:10px}.field textarea{min-height:90px;resize:vertical}.modalfoot{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.keybox{background:#0a0f1c;border:1px dashed #53627f;padding:14px;border-radius:10px;word-break:break-all;font-family:monospace}.notice{padding:12px;border-radius:10px;background:#182641;margin:12px 0}.search{width:100%;max-width:360px;background:#0b1222;border:1px solid #2a3855;color:#fff;border-radius:9px;padding:10px}
+@media(max-width:900px){.side{width:70px}.brand{font-size:0}.brand:after{content:"AK";font-size:18px}.nav button span:last-child{display:none}.nav button{justify-content:center}.nav .ico{font-size:20px}.main{margin-left:70px;width:calc(100% - 70px)}.grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.main{padding:15px}.grid,.formgrid{grid-template-columns:1fr}.title{font-size:22px}}
 </style>
 </head>
 <body>
-<div class="app">
+<div id="loginScreen" class="login">
+  <div class="loginbox">
+    <div class="loginlogo">API KEY ADMIN</div>
+    <div class="muted">Nhập Admin Secret để truy cập dashboard</div>
+    <input id="adminSecretInput" type="password" placeholder="Admin Secret" autocomplete="current-password">
+    <div id="loginError" class="loginerr"></div>
+    <button onclick="doLogin()">Đăng nhập</button>
+  </div>
+</div>
+<div class="app" id="appShell" style="display:none">
 <aside class="side">
   <div class="brand">API KEY ADMIN</div>
   <div class="nav">
-    <button class="active" data-view="dashboard">Dashboard</button>
-    <button data-view="packages">Packages</button>
-    <button data-view="keys">API Keys</button>
+    <button class="active" data-view="dashboard"><span class="ico">⌂</span><span>Dashboard</span></button>
+    <button data-view="packages"><span class="ico">▦</span><span>Packages</span></button>
+    <button data-view="keys"><span class="ico">🔑</span><span>API Keys</span></button>
   </div>
 </aside>
 <main class="main">
@@ -110,55 +122,127 @@ let token = localStorage.getItem('admin_token') || '';
 let packages = [], keys = [];
 
 async function api(path, options={}) {
-  options.headers = {'Content-Type':'application/json', ...(options.headers||{}), ...(token?{'Authorization':'Bearer '+token}:{})};
-  const r = await fetch(API_BASE+path, options);
-  const data = await r.json().catch(()=>({}));
-  if (!r.ok) throw new Error(data.error || 'API error '+r.status);
+  const opts = {...options, headers:{'Content-Type':'application/json', ...(options.headers||{})}};
+  if(token) opts.headers.Authorization='Bearer '+token;
+  let r;
+  try { r=await fetch(API_BASE+path, opts); }
+  catch(e){ throw new Error('Không kết nối được API server: '+API_BASE); }
+  const text=await r.text();
+  let data={}; try{data=text?JSON.parse(text):{}}catch(e){}
+  if(!r.ok) throw new Error(data.error || `API ${r.status}`);
   return data;
 }
-function logout(){localStorage.removeItem('admin_token');location.reload()}
 function closeModal(id){document.getElementById(id).classList.remove('show')}
 function showModal(id){document.getElementById(id).classList.add('show')}
-document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.view).classList.add('active');document.getElementById('pageTitle').textContent=b.textContent});
+function logout(){localStorage.removeItem('admin_token');token='';showLogin()}
+function showLogin(){
+ document.getElementById('appShell').style.display='none';
+ document.getElementById('loginScreen').classList.remove('hidden');
+ document.getElementById('adminSecretInput').focus();
+}
+function showApp(){
+ document.getElementById('loginScreen').classList.add('hidden');
+ document.getElementById('appShell').style.display='flex';
+}
+async function doLogin(){
+ const secret=document.getElementById('adminSecretInput').value;
+ const err=document.getElementById('loginError'); err.textContent='';
+ if(!secret)return err.textContent='Nhập Admin Secret.';
+ try{
+   const r=await fetch(API_BASE+'/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({adminSecret:secret})});
+   const d=await r.json().catch(()=>({}));
+   if(!r.ok)throw new Error(d.error||'Sai Admin Secret');
+   token=d.token;localStorage.setItem('admin_token',token);showApp();await loadAll();
+ }catch(e){err.textContent=e.message}
+}
+document.getElementById('adminSecretInput').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active');
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+ document.getElementById(b.dataset.view).classList.add('active');
+ document.getElementById('pageTitle').textContent=b.querySelector('span:last-child').textContent;
+});
 
 async function loadAll(){
-  try {
-    const [p,k,d]=await Promise.all([api('/api/admin/packages'),api('/api/admin/keys'),api('/api/admin/dashboard')]);
-    packages=p.packages||[]; keys=k.keys||[];
-    document.getElementById('mPackages').textContent=d.packages||packages.length;
-    document.getElementById('mKeys').textContent=d.totalKeys||keys.length;
-    document.getElementById('mActive').textContent=d.activeKeys||keys.filter(x=>x.status==='active').length;
-    document.getElementById('mRequests').textContent=d.requests||0;
-    renderPackages();renderKeys();fillPackages();
-  } catch(e) {
-    if(!token) {
-      const s=prompt('Admin secret:');
-      if(s){try{const r=await api('/api/admin/login',{method:'POST',body:JSON.stringify({adminSecret:s})});token=r.token;localStorage.setItem('admin_token',token);return loadAll()}catch(x){alert(x.message)}}
-    } else alert(e.message);
-  }
+ showApp();
+ const results=await Promise.allSettled([
+   api('/api/admin/packages'),
+   api('/api/admin/keys'),
+   api('/api/admin/dashboard')
+ ]);
+ if(results[0].status==='fulfilled') packages=results[0].value.packages||[];
+ if(results[1].status==='fulfilled') keys=results[1].value.keys||[];
+ if(results[2].status==='fulfilled'){
+   const d=results[2].value;
+   document.getElementById('mPackages').textContent=d.packages??packages.length;
+   document.getElementById('mKeys').textContent=d.totalKeys??keys.length;
+   document.getElementById('mActive').textContent=d.activeKeys??keys.filter(x=>x.status==='active').length;
+   document.getElementById('mRequests').textContent=d.requests??0;
+ }
+ renderPackages();renderKeys();fillPackages();
+ const failed=results.find(x=>x.status==='rejected');
+ if(failed){
+   const msg=failed.reason?.message||'Load failed';
+   if(msg.includes('Unauthorized')){logout();return}
+   console.warn('Partial load:',msg);
+ }
 }
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function renderPackages(){
- document.getElementById('packageRows').innerHTML=packages.map(p=>`<tr><td>${esc(p.name)}</td><td>${esc(p.packageId)}</td><td><code>${esc(p.tokenPreview||'')}</code></td><td>${esc(p.keyNameTemplate)}</td><td><span class="badge ${p.active?'ok':'off'}">${p.active?'active':'disabled'}</span></td><td><button class="btn danger" onclick="deletePackage('${esc(p.id)}')">Delete</button></td></tr>`).join('');
+ const el=document.getElementById('packageRows');
+ if(!packages.length){el.innerHTML='<tr><td colspan="6" class="muted">Chưa có package.</td></tr>';return}
+ el.innerHTML=packages.map(p=>`<tr><td>${esc(p.name)}</td><td>${esc(p.packageId)}</td><td><code>${esc(p.tokenPreview||'pkg_••••••••')}</code></td><td>${esc(p.keyNameTemplate)}</td><td><span class="badge ${p.active?'ok':'off'}">${p.active?'active':'disabled'}</span></td><td><button class="btn danger" onclick="deletePackage('${esc(p.id)}')">Delete</button></td></tr>`).join('');
 }
 function renderKeys(){
  const q=(document.getElementById('keySearch').value||'').toLowerCase();
  const arr=keys.filter(k=>JSON.stringify(k).toLowerCase().includes(q));
- document.getElementById('keyRows').innerHTML=arr.map(k=>`<tr><td>${esc(k.keyName)}</td><td>${esc(k.packageName)}</td><td>${esc(k.username||k.userId)}</td><td><span class="badge ${k.status==='active'?'ok':'off'}">${esc(k.status)}</span></td><td>${k.expiresAt?new Date(k.expiresAt).toLocaleString():'Never'}</td><td>${k.status==='active'?`<button class="btn danger" onclick="revokeKey('${esc(k.id)}')">Revoke</button>`:''}</td></tr>`).join('');
+ const el=document.getElementById('keyRows');
+ if(!arr.length){el.innerHTML='<tr><td colspan="6" class="muted">Chưa có API key.</td></tr>';return}
+ el.innerHTML=arr.map(k=>`<tr><td>${esc(k.keyName)}</td><td>${esc(k.packageName)}</td><td>${esc(k.username||k.userId)}</td><td><span class="badge ${k.status==='active'?'ok':'off'}">${esc(k.status)}</span></td><td>${k.expiresAt?new Date(k.expiresAt).toLocaleString():'Never'}</td><td>${k.status==='active'?`<button class="btn danger" onclick="revokeKey('${esc(k.id)}')">Revoke</button>`:''}</td></tr>`).join('');
 }
-function fillPackages(){document.getElementById('kPackage').innerHTML=packages.filter(p=>p.active).map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join('');applyPackageDefaults()}
+function fillPackages(){
+ const s=document.getElementById('kPackage');
+ s.innerHTML=packages.filter(p=>p.active).map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join('');
+ applyPackageDefaults();
+}
 function openPackageModal(){showModal('packageModal')}
-function openKeyModal(){if(!packages.length)return alert('Create a package first.');fillPackages();showModal('keyModal')}
+function openKeyModal(){if(!packages.length)return alert('Hãy tạo Package trước.');fillPackages();showModal('keyModal')}
 function applyPackageDefaults(){
- const p=packages.find(x=>x.id===document.getElementById('kPackage').value); if(!p)return;
+ const p=packages.find(x=>x.id===document.getElementById('kPackage').value);if(!p)return;
  document.getElementById('kRate').value=p.defaultRateLimit||0;
- if(p.defaultExpirationDays){const d=new Date(Date.now()+p.defaultExpirationDays*86400000);d.setMinutes(d.getMinutes()-d.getTimezoneOffset());document.getElementById('kExpires').value=d.toISOString().slice(0,16)}else document.getElementById('kExpires').value='';
- if(!p.allowCustomKeyName) document.getElementById('kName').placeholder='Auto generated by package';
+ if(p.defaultExpirationDays){
+   const d=new Date(Date.now()+p.defaultExpirationDays*86400000);
+   d.setMinutes(d.getMinutes()-d.getTimezoneOffset());
+   document.getElementById('kExpires').value=d.toISOString().slice(0,16);
+ }else document.getElementById('kExpires').value='';
+ document.getElementById('kName').placeholder=p.allowCustomKeyName?'Để trống = tự tạo theo package':'Tự tạo theo package';
 }
 async function savePackage(){
  try{
   const body={name:pName.value.trim(),packageId:pId.value.trim(),tokenPrefix:pPrefix.value.trim(),tokenLength:+pLen.value,keyNameTemplate:pKeyTemplate.value,defaultExpirationDays:+pExp.value,defaultRateLimit:+pRate.value,allowCustomKeyName:pCustom.value==='true',messageTemplate:pMessage.value};
-  await api('/api/admin/packages',{method:'POST',body:JSON.stringify(body)});closeModal('packageModal');await loadAll();
+  const r=await api('/api/admin/packages',{method:'POST',body:JSON.stringify(body)});
+  closeModal('packageModal');await loadAll();
+  alert('Package tạo thành công. Package Token (chỉ hiện 1 lần):\n\n'+r.packageToken);
+ }catch(e){alert(e.message)}
+}
+async function saveKey(){
+ try{
+  let custom={};try{custom=JSON.parse(kCustom.value||'{}')}catch(e){return alert('Custom Fields phải là JSON hợp lệ')}
+  const body={packageId:kPackage.value,keyName:kName.value.trim(),userId:kUserId.value.trim(),username:kUser.value.trim(),email:kEmail.value.trim(),device:kDevice.value.trim(),expiresAt:kExpires.value?new Date(kExpires.value).toISOString():null,rateLimit:+kRate.value,status:kStatus.value,note:kNote.value,customFields:custom};
+  const r=await api('/api/admin/keys',{method:'POST',body:JSON.stringify(body)});
+  closeModal('keyModal');document.getElementById('createdKey').textContent=r.secret;document.getElementById('createdMessage').value=r.message||'';showModal('secretModal');await loadAll();
+ }catch(e){alert(e.message)}
+}
+async function revokeKey(id){if(!confirm('Revoke key này?'))return;try{await api('/api/admin/keys/'+id+'/revoke',{method:'POST'});await loadAll()}catch(e){alert(e.message)}}
+async function deletePackage(id){if(!confirm('Delete package? Package phải không còn key active.'))return;try{await api('/api/admin/packages/'+id,{method:'DELETE'});await loadAll()}catch(e){alert(e.message)}}
+function copyCreated(){navigator.clipboard.writeText(document.getElementById('createdKey').textContent)}
+function copyMessage(){navigator.clipboard.writeText(document.getElementById('createdMessage').value)}
+
+if(token){
+  api('/api/admin/dashboard').then(()=>loadAll()).catch(()=>{localStorage.removeItem('admin_token');token='';showLogin()});
+}else showLogin();
  }catch(e){alert(e.message)}
 }
 async function saveKey(){
