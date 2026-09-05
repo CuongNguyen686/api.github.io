@@ -1,0 +1,49 @@
+{
+  "packages": {
+    "<packageId>": {
+      "name": "Tweak Premium",
+      "packageId": "tweak_premium",
+      "packageTokenHash": "sha256",
+      "tokenPrefix": "pkg_",
+      "tokenLength": 64,
+      "keyNameTemplate": "{package}_{user}_{random}",
+      "defaultExpirationDays": 30,
+      "defaultRateLimit": 60,
+      "allowCustomKeyName": true,
+      "messageTemplate": "Hello {user}, package {package}. Key: {key}",
+      "active": true
+    }
+  },
+  "apiKeys": {
+    "<keyId>": {
+      "packageId": "tweak_premium",
+      "keyName": "Tweak Premium_user_xY2",
+      "keyHash": "sha256",
+      "keyPreview": "key_xY2\u2022\u2022\u2022\u2022",
+      "status": "active",
+      "userId": "user123",
+      "username": "user",
+      "email": "user@example.com",
+      "device": "iPhone",
+      "note": "",
+      "customFields": {},
+      "rateLimit": 60,
+      "expiresAt": null,
+      "createdAt": 0,
+      "requestCount": 0,
+      "lastUsedAt": null
+    }
+  },
+  "usage": {
+    "<keyId>": {
+      "count": 0
+    }
+  },
+  "auditLogs": {
+    "<logId>": {
+      "action": "create_key",
+      "keyId": "<keyId>",
+      "at": 0
+    }
+  }
+}

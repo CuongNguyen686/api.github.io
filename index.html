@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>API Key Package Manager</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;background:#0b1020;color:#e9edf7}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{display:flex;min-height:100vh}.side{width:240px;background:#10172a;border-right:1px solid #202a42;padding:22px 14px;position:fixed;inset:0 auto 0 0}.brand{font-size:20px;font-weight:800;padding:8px 10px 22px}.nav button{width:100%;text-align:left;border:0;background:transparent;color:#9eabc5;padding:12px 14px;border-radius:10px;margin:3px 0}.nav button.active,.nav button:hover{background:#1b2741;color:#fff}.main{margin-left:240px;width:calc(100% - 240px);padding:28px}.top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:24px}.title{font-size:28px;font-weight:800}.muted{color:#8e9ab2}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}.card,.panel{background:#111a2d;border:1px solid #202b44;border-radius:15px;padding:18px}.metric{font-size:28px;font-weight:800;margin-top:6px}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:0;border-radius:9px;padding:10px 14px;background:#263552;color:#fff}.btn.primary{background:#5865f2}.btn.danger{background:#9b3443}.btn.green{background:#217a59}.view{display:none}.view.active{display:block}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{text-align:left;padding:13px 10px;border-bottom:1px solid #202b44;white-space:nowrap}.badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;background:#253450}.badge.ok{background:#173d30;color:#69e0af}.badge.off{background:#47202a;color:#ff9bab}.modal{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;padding:20px;z-index:10}.modal.show{display:flex}.modalbox{width:min(720px,100%);max-height:92vh;overflow:auto;background:#111a2d;border:1px solid #283653;border-radius:16px;padding:22px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:13px;color:#aab5ca}.field input,.field select,.field textarea{background:#0b1222;border:1px solid #2a3855;color:#fff;border-radius:9px;padding:10px}.field textarea{min-height:90px;resize:vertical}.modalfoot{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.keybox{background:#0a0f1c;border:1px dashed #53627f;padding:14px;border-radius:10px;word-break:break-all;font-family:monospace}.notice{padding:12px;border-radius:10px;background:#182641;margin:12px 0}.search{width:100%;max-width:360px;background:#0b1222;border:1px solid #2a3855;color:#fff;border-radius:9px;padding:10px}
+@media(max-width:900px){.side{width:70px}.brand{font-size:0}.brand:after{content:"AK";font-size:18px}.nav button{font-size:0;text-align:center}.nav button:before{content:"•";font-size:20px}.main{margin-left:70px;width:calc(100% - 70px)}.grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.main{padding:15px}.grid,.formgrid{grid-template-columns:1fr}.title{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+  <div class="brand">API KEY ADMIN</div>
+  <div class="nav">
+    <button class="active" data-view="dashboard">Dashboard</button>
+    <button data-view="packages">Packages</button>
+    <button data-view="keys">API Keys</button>
+  </div>
+</aside>
+<main class="main">
+  <div class="top">
+    <div><div class="title" id="pageTitle">Dashboard</div><div class="muted">Package token + API key management</div></div>
+    <div class="actions"><button class="btn" onclick="logout()">Logout</button></div>
+  </div>
+
+  <section id="dashboard" class="view active">
+    <div class="grid">
+      <div class="card"><div class="muted">Packages</div><div class="metric" id="mPackages">0</div></div>
+      <div class="card"><div class="muted">Total Keys</div><div class="metric" id="mKeys">0</div></div>
+      <div class="card"><div class="muted">Active Keys</div><div class="metric" id="mActive">0</div></div>
+      <div class="card"><div class="muted">Requests</div><div class="metric" id="mRequests">0</div></div>
+    </div>
+    <div class="panel">
+      <h3>Architecture</h3>
+      <p class="muted">Frontend → API Server → Firebase Admin SDK → Realtime Database</p>
+      <div class="notice">Package Token là token nhận diện/ủy quyền package. API Key là credential riêng của từng key/user.</div>
+    </div>
+  </section>
+
+  <section id="packages" class="view">
+    <div class="panel">
+      <div class="top"><h3>Package Manager</h3><button class="btn primary" onclick="openPackageModal()">+ Create Package</button></div>
+      <div class="tablewrap"><table class="table"><thead><tr><th>Name</th><th>Package ID</th><th>Package Token</th><th>Key Template</th><th>Status</th><th></th></tr></thead><tbody id="packageRows"></tbody></table></div>
+    </div>
+  </section>
+
+  <section id="keys" class="view">
+    <div class="panel">
+      <div class="top"><h3>API Keys</h3><button class="btn primary" onclick="openKeyModal()">+ Create Key</button></div>
+      <input class="search" id="keySearch" placeholder="Search key / user / package..." oninput="renderKeys()">
+      <div class="tablewrap"><table class="table"><thead><tr><th>Key Name</th><th>Package</th><th>User</th><th>Status</th><th>Expires</th><th></th></tr></thead><tbody id="keyRows"></tbody></table></div>
+    </div>
+  </section>
+</main>
+</div>
+
+<div class="modal" id="packageModal"><div class="modalbox">
+<h2>Create / Edit Package</h2>
+<div class="formgrid">
+<div class="field"><label>Package Name</label><input id="pName" placeholder="Tweak Premium"></div>
+<div class="field"><label>Package ID</label><input id="pId" placeholder="tweak_premium"></div>
+<div class="field"><label>Token Prefix</label><input id="pPrefix" value="pkg_"></div>
+<div class="field"><label>Token Length</label><input id="pLen" type="number" min="32" max="256" value="64"></div>
+<div class="field"><label>Key Name Template</label><input id="pKeyTemplate" value="{package}_{user}_{random}"></div>
+<div class="field"><label>Default Expiration (days)</label><input id="pExp" type="number" min="0" value="30"></div>
+<div class="field"><label>Default Rate Limit</label><input id="pRate" type="number" min="0" value="60"></div>
+<div class="field"><label>Allow Custom Key Name</label><select id="pCustom"><option value="true">Yes</option><option value="false">No</option></select></div>
+<div class="field full"><label>Message Template</label><textarea id="pMessage">Hello {user}, package {package} has been activated.
+Key: {key}
+Expires: {expiresAt}
+Device: {device}</textarea></div>
+</div>
+<div class="modalfoot"><button class="btn" onclick="closeModal('packageModal')">Cancel</button><button class="btn primary" onclick="savePackage()">Save Package</button></div>
+</div></div>
+
+<div class="modal" id="keyModal"><div class="modalbox">
+<h2>Create API Key</h2>
+<div class="formgrid">
+<div class="field full"><label>Package</label><select id="kPackage" onchange="applyPackageDefaults()"></select></div>
+<div class="field"><label>Key Name</label><input id="kName"></div>
+<div class="field"><label>User ID</label><input id="kUserId"></div>
+<div class="field"><label>Username</label><input id="kUser"></div>
+<div class="field"><label>Email</label><input id="kEmail"></div>
+<div class="field"><label>Device</label><input id="kDevice" placeholder="iPhone / Android / PC"></div>
+<div class="field"><label>Expires At</label><input id="kExpires" type="datetime-local"></div>
+<div class="field"><label>Rate Limit</label><input id="kRate" type="number" min="0"></div>
+<div class="field"><label>Status</label><select id="kStatus"><option>active</option><option>disabled</option></select></div>
+<div class="field full"><label>Note</label><textarea id="kNote"></textarea></div>
+<div class="field full"><label>Custom Fields (JSON)</label><textarea id="kCustom">{}</textarea></div>
+</div>
+<div class="modalfoot"><button class="btn" onclick="closeModal('keyModal')">Cancel</button><button class="btn primary" onclick="saveKey()">Create Key</button></div>
+</div></div>
+
+<div class="modal" id="secretModal"><div class="modalbox">
+<h2>API Key Created</h2>
+<div class="notice">Secret chỉ hiển thị lần này. Backend chỉ lưu hash của secret.</div>
+<div class="field"><label>Key</label><div class="keybox" id="createdKey"></div></div>
+<div class="field" style="margin-top:12px"><label>Message gửi cho user</label><textarea id="createdMessage"></textarea></div>
+<div class="modalfoot"><button class="btn" onclick="copyCreated()">Copy Key</button><button class="btn green" onclick="copyMessage()">Copy Message</button><button class="btn primary" onclick="closeModal('secretModal')">Done</button></div>
+</div></div>
+
+<script>
+const API_BASE = localStorage.getItem('API_BASE') || 'http://localhost:3000';
+let token = localStorage.getItem('admin_token') || '';
+let packages = [], keys = [];
+
+async function api(path, options={}) {
+  options.headers = {'Content-Type':'application/json', ...(options.headers||{}), ...(token?{'Authorization':'Bearer '+token}:{})};
+  const r = await fetch(API_BASE+path, options);
+  const data = await r.json().catch(()=>({}));
+  if (!r.ok) throw new Error(data.error || 'API error '+r.status);
+  return data;
+}
+function logout(){localStorage.removeItem('admin_token');location.reload()}
+function closeModal(id){document.getElementById(id).classList.remove('show')}
+function showModal(id){document.getElementById(id).classList.add('show')}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.view).classList.add('active');document.getElementById('pageTitle').textContent=b.textContent});
+
+async function loadAll(){
+  try {
+    const [p,k,d]=await Promise.all([api('/api/admin/packages'),api('/api/admin/keys'),api('/api/admin/dashboard')]);
+    packages=p.packages||[]; keys=k.keys||[];
+    document.getElementById('mPackages').textContent=d.packages||packages.length;
+    document.getElementById('mKeys').textContent=d.totalKeys||keys.length;
+    document.getElementById('mActive').textContent=d.activeKeys||keys.filter(x=>x.status==='active').length;
+    document.getElementById('mRequests').textContent=d.requests||0;
+    renderPackages();renderKeys();fillPackages();
+  } catch(e) {
+    if(!token) {
+      const s=prompt('Admin secret:');
+      if(s){try{const r=await api('/api/admin/login',{method:'POST',body:JSON.stringify({adminSecret:s})});token=r.token;localStorage.setItem('admin_token',token);return loadAll()}catch(x){alert(x.message)}}
+    } else alert(e.message);
+  }
+}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function renderPackages(){
+ document.getElementById('packageRows').innerHTML=packages.map(p=>`<tr><td>${esc(p.name)}</td><td>${esc(p.packageId)}</td><td><code>${esc(p.tokenPreview||'')}</code></td><td>${esc(p.keyNameTemplate)}</td><td><span class="badge ${p.active?'ok':'off'}">${p.active?'active':'disabled'}</span></td><td><button class="btn danger" onclick="deletePackage('${esc(p.id)}')">Delete</button></td></tr>`).join('');
+}
+function renderKeys(){
+ const q=(document.getElementById('keySearch').value||'').toLowerCase();
+ const arr=keys.filter(k=>JSON.stringify(k).toLowerCase().includes(q));
+ document.getElementById('keyRows').innerHTML=arr.map(k=>`<tr><td>${esc(k.keyName)}</td><td>${esc(k.packageName)}</td><td>${esc(k.username||k.userId)}</td><td><span class="badge ${k.status==='active'?'ok':'off'}">${esc(k.status)}</span></td><td>${k.expiresAt?new Date(k.expiresAt).toLocaleString():'Never'}</td><td>${k.status==='active'?`<button class="btn danger" onclick="revokeKey('${esc(k.id)}')">Revoke</button>`:''}</td></tr>`).join('');
+}
+function fillPackages(){document.getElementById('kPackage').innerHTML=packages.filter(p=>p.active).map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join('');applyPackageDefaults()}
+function openPackageModal(){showModal('packageModal')}
+function openKeyModal(){if(!packages.length)return alert('Create a package first.');fillPackages();showModal('keyModal')}
+function applyPackageDefaults(){
+ const p=packages.find(x=>x.id===document.getElementById('kPackage').value); if(!p)return;
+ document.getElementById('kRate').value=p.defaultRateLimit||0;
+ if(p.defaultExpirationDays){const d=new Date(Date.now()+p.defaultExpirationDays*86400000);d.setMinutes(d.getMinutes()-d.getTimezoneOffset());document.getElementById('kExpires').value=d.toISOString().slice(0,16)}else document.getElementById('kExpires').value='';
+ if(!p.allowCustomKeyName) document.getElementById('kName').placeholder='Auto generated by package';
+}
+async function savePackage(){
+ try{
+  const body={name:pName.value.trim(),packageId:pId.value.trim(),tokenPrefix:pPrefix.value.trim(),tokenLength:+pLen.value,keyNameTemplate:pKeyTemplate.value,defaultExpirationDays:+pExp.value,defaultRateLimit:+pRate.value,allowCustomKeyName:pCustom.value==='true',messageTemplate:pMessage.value};
+  await api('/api/admin/packages',{method:'POST',body:JSON.stringify(body)});closeModal('packageModal');await loadAll();
+ }catch(e){alert(e.message)}
+}
+async function saveKey(){
+ try{
+  let custom={};try{custom=JSON.parse(kCustom.value||'{}')}catch(e){return alert('Custom Fields phải là JSON hợp lệ')}
+  const body={packageId:kPackage.value,keyName:kName.value.trim(),userId:kUserId.value.trim(),username:kUser.value.trim(),email:kEmail.value.trim(),device:kDevice.value.trim(),expiresAt:kExpires.value?new Date(kExpires.value).toISOString():null,rateLimit:+kRate.value,status:kStatus.value,note:kNote.value,customFields:custom};
+  const r=await api('/api/admin/keys',{method:'POST',body:JSON.stringify(body)});
+  closeModal('keyModal');createdKey.textContent=r.secret;createdMessage.value=r.message||'';showModal('secretModal');await loadAll();
+ }catch(e){alert(e.message)}
+}
+async function revokeKey(id){if(!confirm('Revoke key này?'))return;try{await api('/api/admin/keys/'+id+'/revoke',{method:'POST'});await loadAll()}catch(e){alert(e.message)}}
+async function deletePackage(id){if(!confirm('Delete package? Package phải không còn key active.'))return;try{await api('/api/admin/packages/'+id,{method:'DELETE'});await loadAll()}catch(e){alert(e.message)}}
+function copyCreated(){navigator.clipboard.writeText(createdKey.textContent)}
+function copyMessage(){navigator.clipboard.writeText(createdMessage.value)}
+loadAll();
+</script>
+</body>
+</html>

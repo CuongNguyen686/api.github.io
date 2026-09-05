@@ -1,0 +1,22 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "packages": {
+      ".read": false,
+      ".write": false
+    },
+    "apiKeys": {
+      ".read": false,
+      ".write": false
+    },
+    "usage": {
+      ".read": false,
+      ".write": false
+    },
+    "auditLogs": {
+      ".read": false,
+      ".write": false
+    }
+  }
+}
